@@ -60,7 +60,7 @@ export const projects: Project[] = [
     technologies: ["Next.js", "React", "TypeScript", "TailwindCSS", "Stripe API"],
     image: null,
     github: null,
-    liveDemo: "https://jaatland-project.vercel.app/",
+    liveDemo: "https://www.krriss.cloud",
     caseStudy: null,
     featured: true,
     contribution: "Implemented product flows and frontend architecture for a full-stack commerce experience with a clean user journey.",

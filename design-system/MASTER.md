@@ -5,7 +5,6 @@
 > If not, strictly follow the rules below.
 >
 > Canonical path: `design-system/MASTER.md`.
-> UI/UX Pro Max also persisted a copy at `design-system/krish-ahir-portfolio/MASTER.md`. Keep them in sync.
 
 ---
 

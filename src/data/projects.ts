@@ -82,7 +82,7 @@ export const projects: Project[] = [
       "A mobile-first stock tracking and market exploration app focused on price insight, charting, and location-aware market context.",
     technologies: ["Flutter", "Dart", "Stock APIs", "Charts", "Geolocation"],
     image: null,
-    github: null,
+    github: "https://github.com/Krish-39/StockMart",
     liveDemo: null,
     caseStudy: null,
     featured: true,

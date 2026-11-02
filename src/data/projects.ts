@@ -123,6 +123,33 @@ export const projects: Project[] = [
     },
   },
   {
+    id: "netflix-sentiment",
+    title: "Netflix Sentiment on Reddit",
+    category: "Big data & NLP pipeline",
+    filterGroup: "Data",
+    description:
+      "A pipeline that collects Reddit posts about Netflix, cleans the text, scores each post’s sentiment, stores everything in PostgreSQL and charts the results.",
+    technologies: ["Python", "Reddit API (PRAW)", "pandas", "NLTK", "TextBlob", "PostgreSQL", "Plotly", "Matplotlib"],
+    image: { src: "/projects/netflix-sentiment.webp", alt: "Chart of 242 Reddit posts about Netflix: 45% positive, 43% neutral, 12% negative" },
+    github: null,
+    liveDemo: null,
+    featured: false,
+    team: "Team of 2",
+    contribution:
+      "Built the pipeline with a teammate: Reddit collection with PRAW, text cleaning, TextBlob scoring, PostgreSQL storage and the Plotly charts.",
+    pipeline: ["Reddit API", "Cleaning", "TextBlob", "PostgreSQL", "Charts"],
+    deepDive: {
+      hook: "What does Reddit actually think of Netflix? 242 posts, scored and charted.",
+      problem:
+        "For a Big Data & Analytics course we wanted to measure public opinion about Netflix and its biggest shows (Squid Game, Stranger Things) from organic discussion rather than surveys, and turn it into something the business could act on.",
+      built:
+        "A Python pipeline: PRAW pulls posts for each keyword from the Reddit API, a cleaning step strips URLs, emojis and stopwords, and TextBlob gives every post a polarity from −1 to +1, labelled positive above 0.1 and negative below −0.1. Results go into PostgreSQL for querying and into Plotly and Matplotlib charts. Of 242 posts, 45% came out positive, 43% neutral and 12% negative; complaints clustered around the app’s interface and pricing.",
+      tradeoff:
+        "TextBlob is a word-list model: fast, free and easy to explain, but it misses sarcasm and slang, which is part of why so many posts landed in the neutral band. And 242 posts collected in one day is a snapshot, not a trend.",
+      next: "Collect over several weeks to see real trends, hand-label a sample to measure accuracy, and compare TextBlob against a transformer model like BERT.",
+    },
+  },
+  {
     id: "cloud-infrastructure-deployment",
     title: "AWS Cloud Web Application",
     category: "Highly available cloud architecture",

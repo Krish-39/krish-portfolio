@@ -664,7 +664,8 @@ p {
   margin: 3rem 0 1.25rem;
 }
 @media (min-width: 1024px) {
-  .project-grid--more {
+  .project-grid--more,
+  .project-grid--shots {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }

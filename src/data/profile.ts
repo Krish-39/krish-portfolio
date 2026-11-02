@@ -28,7 +28,7 @@ export const profile = {
       { label: "Drivetrain", value: "Full-stack: React, Next.js, Node.js" },
       { label: "Tuning", value: "AI / ML: Gemini API, scikit-learn" },
       { label: "Chassis", value: "AWS · Firebase" },
-      { label: "Mileage", value: "7 projects built" },
+      { label: "Mileage", value: "8 projects built" },
       { label: "Availability", value: "6+ months, full time" },
     ],
     footerLeft: "Built in Berlin, DE",

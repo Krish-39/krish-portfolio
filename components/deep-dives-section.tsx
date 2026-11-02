@@ -9,7 +9,7 @@ const parts = [
 ] as const;
 
 // Native <details> keeps this zero-JS and fully keyboard accessible.
-const DEEP_DIVE_IDS = ["nextfilm", "jaatland", "stockmart", "heart-attack-risk-prediction", "secure-network-order-system"];
+const DEEP_DIVE_IDS = ["nextfilm", "jaatland", "stockmart", "netflix-sentiment", "heart-attack-risk-prediction", "secure-network-order-system"];
 
 export function DeepDivesSection() {
   const entries = DEEP_DIVE_IDS.map((id) => projects.find((project) => project.id === id)).filter(

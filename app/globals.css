@@ -645,6 +645,29 @@ p {
   gap: 1.25rem;
   grid-template-columns: 1fr;
 }
+.project-grid > div {
+  display: flex;
+}
+.project-grid .project-card {
+  width: 100%;
+}
+/* Small height differences go above the buttons, not in the middle of the card. */
+.project-card__actions {
+  margin-top: auto !important;
+  padding-top: 0.5rem;
+}
+.project-grid--more {
+  margin-top: 0;
+}
+.project-grid__label {
+  display: block;
+  margin: 3rem 0 1.25rem;
+}
+@media (min-width: 1024px) {
+  .project-grid--more {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
 
 @media (min-width: 768px) {
   .project-grid {
@@ -654,16 +677,6 @@ p {
 @media (min-width: 1024px) {
   .project-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  .project-grid__lead {
-    grid-column: span 2;
-  }
-  .project-grid__lead .project-card h3 {
-    font-size: clamp(2rem, 3vw, 2.6rem);
-  }
-  .project-grid__lead .project-card p {
-    max-width: 38rem;
-    font-size: 1rem;
   }
 }
 
@@ -760,7 +773,6 @@ p {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
-  margin-top: auto;
 }
 .project-card__tech span {
   display: inline-flex;

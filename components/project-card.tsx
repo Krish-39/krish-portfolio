@@ -5,16 +5,14 @@ import type { Project } from "@/src/data/projects";
 export function ProjectCard({
   project,
   index,
-  lead = false,
   onSelect,
 }: {
   project: Project;
   index?: number;
-  lead?: boolean;
   onSelect?: (project: Project) => void;
 }) {
   return (
-    <article id={project.id} className="project-card h-full" aria-label={project.title}>
+    <article id={project.id} className="project-card" aria-label={project.title}>
       {project.image ? (
         <div className="project-card__shot">
           <Image
@@ -22,8 +20,7 @@ export function ProjectCard({
             alt={project.image.alt}
             width={1200}
             height={750}
-            sizes={lead ? "(min-width: 1024px) 760px, 100vw" : "(min-width: 1024px) 380px, (min-width: 768px) 50vw, 100vw"}
-            priority={lead}
+            sizes="(min-width: 1024px) 380px, (min-width: 768px) 50vw, 100vw"
           />
         </div>
       ) : null}

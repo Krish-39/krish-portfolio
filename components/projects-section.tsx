@@ -61,6 +61,9 @@ export function ProjectsSection() {
     return projects.filter((project) => project.filterGroup === activeFilter);
   }, [activeFilter]);
 
+  const withShots = filteredProjects.filter((project) => project.image);
+  const withoutShots = filteredProjects.filter((project) => !project.image);
+
   return (
     <section id="projects" className="section-padding bg-primary">
       <div className="container-custom">
@@ -82,25 +85,37 @@ export function ProjectsSection() {
           </div>
         </div>
 
-        <div className="project-grid">
-          {filteredProjects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              className={activeFilter === "All" && index === 0 ? "project-grid__lead" : undefined}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.5, delay: Math.min(index * 0.08, 0.4) }}
-            >
-              <ProjectCard
-                project={project}
-                index={projects.indexOf(project) + 1}
-                lead={activeFilter === "All" && index === 0}
-                onSelect={setSelectedProject}
-              />
-            </motion.div>
-          ))}
-        </div>
+        {/* Projects with a screenshot and projects without one go in separate grids,
+            so cards in the same row have similar heights and no empty gaps. */}
+        {[
+          { key: "shots", items: withShots, className: "project-grid project-grid--shots" },
+          { key: "more", items: withoutShots, className: "project-grid project-grid--more" },
+        ].map((group) =>
+          group.items.length ? (
+            <div key={group.key}>
+              {group.key === "more" && withShots.length ? (
+                <p className="project-grid__label eyebrow">More projects</p>
+              ) : null}
+              <div className={group.className}>
+                {group.items.map((project, index) => (
+                  <motion.div
+                    key={project.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.15 }}
+                    transition={{ duration: 0.5, delay: Math.min(index * 0.08, 0.3) }}
+                  >
+                    <ProjectCard
+                      project={project}
+                      index={projects.indexOf(project) + 1}
+                      onSelect={setSelectedProject}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          ) : null,
+        )}
       </div>
 
       {selectedProject ? (

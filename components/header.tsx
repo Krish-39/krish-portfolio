@@ -3,18 +3,30 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { profile } from "@/src/data/profile";
+import { navItems } from "@/src/data/nav";
 
-const navItems = [
-  { label: "Home", href: "#home" },
-  { label: "Projects", href: "#projects" },
-  { label: "Skills", href: "#skills" },
-  { label: "Education", href: "#education" },
-  { label: "Contact", href: "#contact" },
-];
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeHref, setActiveHref] = useState("");
+
+  // Highlight the nav item for the section currently in the middle of the viewport.
+  useEffect(() => {
+    const sections = navItems
+      .map((item) => document.querySelector<HTMLElement>(item.href))
+      .filter((section): section is HTMLElement => section !== null);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveHref(`#${entry.target.id}`);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -56,12 +68,27 @@ export function Header() {
           <ul>
             {navItems.map((item) => (
               <li key={item.href}>
-                <a href={item.href}>{item.label}</a>
+                <a
+                  href={item.href}
+                  className={activeHref === item.href ? "is-active" : undefined}
+                  aria-current={activeHref === item.href ? "true" : undefined}
+                >
+                  {item.label}
+                </a>
               </li>
             ))}
           </ul>
         </nav>
 
+        <div className="site-header__tools">
+        <button
+          type="button"
+          className="cmdk-trigger"
+          onClick={() => window.dispatchEvent(new Event("open-command-menu"))}
+          aria-label="Open command menu"
+        >
+          <kbd>⌘K</kbd>
+        </button>
         <button
           type="button"
           className="menu-toggle"
@@ -71,6 +98,7 @@ export function Header() {
         >
           <span aria-hidden="true" />
         </button>
+        </div>
       </div>
 
       <AnimatePresence>

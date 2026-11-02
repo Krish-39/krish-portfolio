@@ -52,6 +52,17 @@ const linkedinIcon = (
 
 export function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      window.location.href = `mailto:${profile.email}`;
+    }
+  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -70,7 +81,7 @@ export function ContactSection() {
   return (
     <section id="contact" className="section-padding bg-primary">
       <div className="container-custom">
-        <SectionHeader eyebrow="GET IN TOUCH" title="Contact Me" />
+        <SectionHeader index="06" eyebrow="Get in touch" title="Contact Me" />
 
         <div className="contact-grid">
           <motion.div
@@ -90,6 +101,9 @@ export function ContactSection() {
                   <a className="contact-info__value" href={`mailto:${profile.email}`}>
                     {profile.email}
                   </a>
+                  <button type="button" className="copy-btn" onClick={copyEmail} aria-live="polite">
+                    {copied ? "Copied ✓" : "Copy"}
+                  </button>
                 </div>
               </div>
 
@@ -144,13 +158,16 @@ export function ContactSection() {
                 <textarea
                   id="contact-message"
                   name="message"
-                  placeholder="Tell me about your project..."
+                  placeholder="Tell me about the role or project…"
                   required
                 />
               </div>
               <button type="submit" className="btn btn-primary w-full">
-                Send Message
+                Open in my email app <span aria-hidden="true">↗</span>
               </button>
+              <p className="form-note">
+                This drafts the message in your email app. Nothing is sent until you press send there.
+              </p>
               {submitted ? (
                 <p className="form-success" role="status">
                   Your email app should open with this message ready to send. If it doesn’t, email {profile.email}.

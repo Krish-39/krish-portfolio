@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { EngineeringMap } from "@/components/engineering-map";
-import { projects } from "@/src/data/projects";
+import { DotField } from "@/components/dot-field";
+import { SpecSheet } from "@/components/spec-sheet";
 import { profile } from "@/src/data/profile";
 
 function formatClock(now: Date) {
@@ -44,28 +44,30 @@ export function Hero() {
     return () => clearInterval(interval);
   }, []);
 
-  const letters = profile.name.split("");
+  const [firstName, ...rest] = profile.name.split(" ");
+  const nameLines = [firstName, rest.join(" ")];
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.15, delayChildren: 0.2 },
+      transition: { staggerChildren: 0.08, delayChildren: 0.1 },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 18 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.55 } },
+    hidden: { opacity: 0, y: 12 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" as const } },
   };
 
   return (
     <section id="home" className="hero">
-      <div className="hero__blob hero__blob--one" aria-hidden="true" />
-      <div className="hero__blob hero__blob--two" aria-hidden="true" />
-
+      <DotField />
       <div className="hero__bar">
-        <span>{clock ? `${clock.time} - ${clock.date}` : "--:--"}</span>
+        <span>{clock ? `${clock.time} · ${clock.date}` : "--:--"}</span>
+        <span className="hero__bar-mid">
+          <span className="hero__now-label">NOW</span> {profile.now}
+        </span>
         <span>~{profile.name.toUpperCase()}</span>
       </div>
 
@@ -76,33 +78,26 @@ export function Hero() {
           initial="hidden"
           animate="visible"
         >
-          <motion.div variants={itemVariants} className="hero__label">
-            <span className="eyebrow">PORTFOLIO</span>
-          </motion.div>
-
-          <motion.p variants={itemVariants} className="hero__hello">
-            HELLO, I&apos;M
-          </motion.p>
-
-          <motion.h1 variants={itemVariants} aria-label={profile.name}>
-            <span className="pixelated-text" aria-hidden="true">
-              {letters.map((letter, index) => (
-                <motion.span
-                  key={`${letter}-${index}`}
-                  initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.35 + index * 0.05, duration: 0.25 }}
-                  style={{ display: "inline-block", whiteSpace: letter === " " ? "pre" : undefined }}
-                >
-                  {letter}
-                </motion.span>
-              ))}
-            </span>
-          </motion.h1>
-
-          <motion.p variants={itemVariants} className="hero__role text-gradient">
+          <motion.p variants={itemVariants} className="hero__label eyebrow">
             {profile.role}
           </motion.p>
+
+          <h1 className="hero__name" aria-label={profile.name}>
+            {nameLines.map((line, lineIndex) => (
+              <span className="hero__name-line" key={line} aria-hidden="true">
+                {line.split("").map((letter, index) => (
+                  <motion.span
+                    key={`${letter}-${index}`}
+                    initial={reduceMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.15 + (lineIndex * 5 + index) * 0.045, duration: 0.2 }}
+                  >
+                    {letter}
+                  </motion.span>
+                ))}
+              </span>
+            ))}
+          </h1>
 
           <motion.p variants={itemVariants} className="hero__bio">
             {profile.bio}
@@ -113,37 +108,10 @@ export function Hero() {
             {profile.availability}
           </motion.div>
 
-          <motion.div variants={itemVariants} className="social-row">
-            {profile.socials.map((social) => (
-              <a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {socialIcons[social.label] ?? null}
-                {social.label}
-              </a>
-            ))}
-          </motion.div>
-
           <motion.div variants={itemVariants} className="hero__actions">
-            <a href="#projects" className="nothing-btn">
-              VIEW PROJECTS
-              <svg
-                className="ml-2 h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
+            <a href="#projects" className="nothing-btn nothing-btn--primary">
+              View projects
+              <span aria-hidden="true">→</span>
             </a>
             <a
               href={profile.resumeUrl}
@@ -151,26 +119,35 @@ export function Hero() {
               rel="noopener noreferrer"
               className="nothing-btn"
             >
-              RESUME
-              <svg
-                className="ml-2 h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
+              Resume (PDF)
+              <span aria-hidden="true">↗</span>
             </a>
+            <div className="social-row">
+              {profile.socials.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {socialIcons[social.label] ?? null}
+                  {social.label}
+                </a>
+              ))}
+            </div>
           </motion.div>
+
+          <motion.dl variants={itemVariants} className="hero__spec">
+            {profile.facts.map((fact) => (
+              <div key={fact.label}>
+                <dt>{fact.label}</dt>
+                <dd>{fact.value}</dd>
+              </div>
+            ))}
+          </motion.dl>
         </motion.div>
 
-        <EngineeringMap projects={projects} />
+        <SpecSheet />
       </div>
     </section>
   );

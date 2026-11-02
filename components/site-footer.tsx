@@ -1,12 +1,6 @@
 import { profile } from "@/src/data/profile";
+import { navItems } from "@/src/data/nav";
 
-const footerLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Projects", href: "#projects" },
-  { label: "Skills", href: "#skills" },
-  { label: "Education", href: "#education" },
-  { label: "Contact", href: "#contact" },
-];
 
 export function SiteFooter() {
   return (
@@ -22,7 +16,7 @@ export function SiteFooter() {
           </div>
 
           <nav aria-label="Footer navigation" className="site-footer__links">
-            {footerLinks.map((link) => (
+            {navItems.map((link) => (
               <a key={link.href} href={link.href}>
                 {link.label}
               </a>

@@ -4,7 +4,9 @@ export const profile = {
   role: "Software Engineering B.Sc. Student",
   tagline: "Building full-stack, AI-powered, and cloud applications.",
   location: "Berlin, Germany",
-  bio: "I build practical software across cloud deployment, database design, full-stack applications, and AI-powered recommendations. I’m seeking a full-time mandatory internship where I can contribute and grow as an engineer.",
+  bio: "I’ve shipped an AI movie recommender and a Stripe-powered online store, built ML models on health data, and deployed apps on AWS. Now I’m looking for a team where I can build real things during a 6+ month internship.",
+  // Short status line in the hero bar. Update it whenever you start something new.
+  now: "Redesigning NextFilm",
   availability: "Available immediately for a full-time mandatory internship (6+ months)",
   email: "Krishahir3939@gmail.com",
   socials: [
@@ -18,6 +20,37 @@ export const profile = {
     },
   ],
   resumeUrl: "/krish-ahir-resume.pdf",
+  // The car-brochure style "spec sheet" on the right of the hero.
+  spec: {
+    model: "KA-27",
+    rows: [
+      { label: "Engine", value: "TypeScript · Python" },
+      { label: "Drivetrain", value: "Full-stack: React, Next.js, Node.js" },
+      { label: "Tuning", value: "AI / ML: Gemini API, scikit-learn" },
+      { label: "Chassis", value: "AWS · Firebase" },
+      { label: "Mileage", value: "8 projects built" },
+      { label: "Availability", value: "6+ months, full time" },
+    ],
+    footerLeft: "Built in Berlin, DE",
+    footerRight: "Est. 2024",
+  },
+  // Shown as the spec strip under the hero. Keep each value short.
+  facts: [
+    { label: "Based in", value: "Berlin, DE" },
+    { label: "Studying", value: "B.Sc. Software Eng." },
+    { label: "Graduating", value: "Oct 2027" },
+    { label: "Looking for", value: "6+ month internship" },
+  ],
+};
+
+export const about = {
+  story: [
+    "I’m a Software Engineering student at the University of Europe for Applied Sciences in Berlin. I like the part of a project where an idea has to survive contact with real users: payments that must not fail, models that have to be right when it matters, servers that need to stay up.",
+    "Most of what’s on this page started as coursework that I kept pushing until it actually shipped. I’m looking for a mandatory internship of 6 months or more, full time, where I can learn from experienced engineers and own real pieces of a product.",
+  ],
+  interests: ["Cars and driving", "How systems and the cloud fit together", "Turning ML results into something people can use"],
+  focus: ["Full-stack web apps", "Applied AI / ML", "Cloud deployment", "Software quality"],
+  languages: "English (fluent) · German (A1)",
 };
 
 export const skillGroups = [
@@ -55,7 +88,7 @@ export const skillGroups = [
   },
   {
     title: "Languages",
-    items: ["English — Fluent", "German — A2"],
+    items: ["English — Fluent", "German — A1"],
   },
 ];
 

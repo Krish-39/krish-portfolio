@@ -4,10 +4,12 @@ My personal portfolio: who I am, the projects I've built, my skills and educatio
 
 ## Sections
 
-- **Hero** with a project radar that links straight into each case study
-- **Projects**: case studies with my contribution, objective, approach, what I learned, and GitHub / live-demo links, filterable by area
-- **Skills** and **Education**
-- **Contact** form (opens your mail client with the message pre-filled) and a downloadable CV
+- **Hero**: name set in Michroma over a cursor-reactive dot field, a car-brochure style spec sheet, and a quick fact strip
+- **About**: who I am, interests, focus areas and languages
+- **Projects**: screenshots, my role, the data flow, and a case-study dialog (problem, what I built, the tradeoff, what I'd do next), filterable by area
+- **Skills** as a spec table, **Deep-dives** (long-form write-ups), **Education**
+- **Contact**: opens your mail client with the message pre-filled, plus copy-email and a downloadable CV
+- **⌘K / Ctrl+K** command menu to jump to any section, case study, demo or link
 
 ## Projects featured
 
@@ -23,10 +25,10 @@ Plus cloud deployment, database design, ML and IT-security coursework projects.
 
 All text is data, not markup, so updating the site means editing two files:
 
-- `src/data/profile.ts`: name, bio, availability, email, social links, skills, education
+- `src/data/profile.ts`: name, bio, availability, the hero spec sheet and "NOW" line, about text, skills, education
 - `src/data/projects.ts`: every project card and case study
 
-The visual rules (colors, type, spacing, components) are documented in `design-system/MASTER.md`, with page-specific overrides in `design-system/pages/`.
+Visual tokens (black-and-white palette, fonts) live at the top of `app/globals.css`. Fonts are self-hosted under `app/fonts/` (SIL OFL, see `app/fonts/OFL.txt`), so builds never need to reach Google Fonts. `design-system/` holds the original design notes and predates this redesign.
 
 ## Run locally
 

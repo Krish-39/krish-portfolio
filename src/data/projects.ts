@@ -1,3 +1,12 @@
+export type DeepDive = {
+  /** One line shown when the entry is collapsed. */
+  hook: string;
+  problem: string;
+  built: string;
+  tradeoff: string;
+  next: string;
+};
+
 export type Project = {
   id: string;
   title: string;
@@ -5,199 +14,242 @@ export type Project = {
   filterGroup: "Full-Stack" | "AI / ML" | "Mobile" | "Data" | "Security" | "Cloud";
   description: string;
   technologies: string[];
-  image: string | null;
+  /** Screenshot in /public/projects, 16:10 works best. */
+  image: { src: string; alt: string } | null;
   github: string | null;
   liveDemo: string | null;
-  caseStudy: string | null;
+  /** Shown in the hero spotlight. */
   featured: boolean;
+  /** "Solo", or the team size for group work. */
+  team: string;
+  /** One sentence: what I personally did. */
   contribution: string;
-  objective: string;
-  approach: string;
-  learning: string;
-  significance: string;
+  /** The data flow drawn on the card, left to right. */
+  pipeline: string[];
+  /** Long-form write-up for the case-study dialog and the Deep-dives section. */
+  deepDive: DeepDive;
 };
 
 export const projects: Project[] = [
   {
     id: "nextfilm",
     title: "NextFilm",
-    category: "AI-Powered Movie Recommendation System",
+    category: "AI-powered movie & series discovery",
     filterGroup: "AI / ML",
     description:
-      "A personalized movie recommendation platform that combines recommendation logic with an intuitive browsing experience for discovering relevant titles.",
+      "Describe a mood (“a slow, sad space movie”) and get five picks from Gemini, backed by TMDb data, Reddit recommendation threads and a personal watchlist.",
     technologies: [
-      "React / Vite",
-      "JavaScript",
-      "Firebase",
-      "Firebase Authentication",
+      "React",
+      "Vite",
+      "Firebase Auth",
       "Firestore",
-      "TMDb",
-      "Gemini AI",
-      "Recommendation Systems",
+      "Cloud Functions",
+      "Gemini API",
+      "TMDb API",
+      "Python",
+      "scikit-learn",
     ],
-    image: null,
+    image: { src: "/projects/nextfilm.webp", alt: "NextFilm home page with the AI search box" },
     github: "https://github.com/Krish-39/AI_SE04_NextFilm",
     liveDemo: "https://nextfilm-84dc1.web.app",
-    caseStudy: null,
     featured: true,
-    contribution: "Built a recommendation-driven product flow using a full-stack frontend and contextual recommendation logic.",
-    objective:
-      "To build a product experience around relevant movie discovery using recommendation logic and an intuitive user journey.",
-    approach:
-      "The project pulled together a clean frontend, data-driven recommendations, and user-focused browsing flow to make relevant titles easy to discover.",
-    learning:
-      "I improved my understanding of how product decisions, recommendation design, and data flows work together in a usable application.",
-    significance:
-      "Recommendation systems are a practical example of how software can combine data, user context, and UX to create useful outcomes.",
+    team: "Team of 4",
+    contribution:
+      "Wrote most of the code (43 of the repo’s 51 commits): the React app, Firebase auth and watchlist, and the Cloud Function that turns a mood into picks.",
+    pipeline: ["Mood prompt", "Gemini + Reddit", "TMDb", "Your picks"],
+    deepDive: {
+      hook: "Turning “I want something sad, set in space” into five films you can actually watch tonight.",
+      problem:
+        "Streaming catalogues are huge, and genre filters don’t capture what people really ask for, which is a mood or a vague plot. Our course brief (DA120B) was to build a recommender that cuts down that search time.",
+      built:
+        "A React + Vite app on Firebase. A Cloud Function sends the user’s prompt to Gemini, adds what people recommend in Reddit communities like r/MovieSuggestions, and resolves every title against TMDb for posters, trailers and where to watch. Watchlists live per user in Firestore. Alongside it, we built content-based, collaborative (SVD) and hybrid recommenders in Python on MovieLens 1M as the offline study for the report.",
+      tradeoff:
+        "The live app doesn’t serve our Python models. MovieLens 1M stops around the year 2000 and hosting a model server costs money, so an LLM over TMDb’s current catalogue gave fresher picks for free. The models stayed an evaluation study instead of a production feature.",
+      next: "Feed real watchlist data back into the hybrid model and compare its picks against Gemini’s on the same prompts, instead of judging quality by eye.",
+    },
   },
   {
     id: "jaatland",
     title: "Jaatland",
-    category: "Full-Stack E-Commerce Web Platform",
+    category: "Full-stack e-commerce store",
     filterGroup: "Full-Stack",
     description:
-      "A commerce application designed for product discovery, cart handling, and checkout flows with a modular full-stack architecture.",
-    technologies: ["Next.js", "React", "TypeScript", "TailwindCSS", "Stripe API"],
-    image: null,
+      "A clothing store with filters, a persistent cart, Stripe checkout (card, Klarna, SEPA), order history and an admin dashboard. Live at store.krriss.cloud.",
+    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Stripe Payment Intents"],
+    image: { src: "/projects/jaatland.webp", alt: "Jaatland store home page with featured products" },
     github: "https://github.com/Krish-39/Jaatland-Project",
     liveDemo: "https://store.krriss.cloud",
-    caseStudy: null,
     featured: true,
-    contribution: "Implemented product flows and frontend architecture for a full-stack commerce experience with a clean user journey.",
-    objective:
-      "To design a complete commerce flow that supports product browsing, cart interaction, and checkout usability.",
-    approach:
-      "The application focused on a clear customer journey and a structured frontend architecture so the store felt coherent and easy to navigate.",
-    learning:
-      "I strengthened my understanding of product flow design, state management patterns, and how interface clarity affects the overall experience.",
-    significance:
-      "E-commerce systems are a strong example of how software must balance product UX, backend coordination, and a reliable user journey.",
+    team: "Solo",
+    contribution:
+      "Built the whole store: catalogue and filters, cart, Stripe checkout through a Next.js API route, order history and the admin dashboard.",
+    pipeline: ["Catalogue", "Cart", "Payment Intent", "Order"],
+    deepDive: {
+      hook: "A small clothing brand’s store, end to end: from size filters to a real Stripe payment.",
+      problem:
+        "I wanted to understand everything a real shop needs beyond a product grid: filtering, a cart that survives a page reload, a payment flow that never exposes secret keys, and a back office to see orders and revenue.",
+      built:
+        "A Next.js App Router store. Shoppers filter by size, colour and price, and the cart and order history persist in the browser. Checkout calls a server route that creates a Stripe Payment Intent (card, Klarna or SEPA) with the secret key kept on the server. An admin page shows product, order and revenue totals and lets me edit products and the homepage.",
+      tradeoff:
+        "To ship quickly, the cart total is sent from the browser and orders live in localStorage. That’s fine for a demo with Stripe test cards, but it means the server trusts the client’s price and orders don’t follow you to another device.",
+      next: "Move products and orders into a database, calculate the price on the server from product IDs, and confirm orders with a Stripe webhook instead of the client.",
+    },
   },
   {
     id: "stockmart",
     title: "StockMart",
-    category: "Flutter Investment Dashboard",
+    category: "Stock market app: research, Figma, Flutter + web",
     filterGroup: "Mobile",
     description:
-      "A mobile-first stock tracking and market exploration app focused on price insight, charting, and location-aware market context.",
-    technologies: ["Flutter", "Dart", "Stock APIs", "Charts", "Geolocation"],
-    image: null,
+      "A stock market app taken from research to code: competitor analysis, personas and a usability-tested Figma prototype, then built as a Flutter app and a matching web app with live quotes, charts and news.",
+    technologies: ["Figma", "Flutter", "Dart", "fl_chart", "Geolocator", "JavaScript", "Bootstrap 5", "Chart.js", "PHP", "Finnhub API"],
+    image: { src: "/projects/stockmart.webp", alt: "StockMart web app Markets page with a grid of live stock cards" },
     github: "https://github.com/Krish-39/StockMart",
     liveDemo: null,
-    caseStudy: null,
     featured: true,
-    contribution: "Designed a mobile interface around financial data exploration, chart interpretation, and usability.",
-    objective:
-      "To make stock and market information easier to explore in a mobile-first interface for quick decision support.",
-    approach:
-      "The app organized market data into a user-friendly dashboard and focused on clarity, data interpretation, and mobile usability.",
-    learning:
-      "I learnt how interface design shapes how users understand technical data and make decisions from it.",
-    significance:
-      "Good product design matters even in data-heavy tools because clarity determines whether insight can actually be used.",
+    team: "Solo",
+    contribution:
+      "Did the research and the 7-screen Figma prototype, ran a usability test with 5 people, then built the Flutter app and the web version from the design.",
+    pipeline: ["Research", "Figma prototype", "User testing", "Flutter + web"],
+    deepDive: {
+      hook: "Between Bloomberg’s complexity and Robinhood’s oversimplification: a stock app designed with users, then built twice.",
+      problem:
+        "Finance apps tend to be either too complex for everyday investors or too simple for people who track a real portfolio. After comparing Robinhood, Bloomberg, Yahoo Finance, Webull and eToro, I designed for two personas: a beginner who wants only what matters, and an older investor who needs large, high-contrast text.",
+      built:
+        "A dark-theme Figma prototype with 7 screens (sign-in, home, markets and news, stock detail, portfolio, Pro upgrade) on a small design system: DM Sans for text, DM Mono for every number, and WCAG 2.1 AA contrast. I then built it as a Flutter app (live Finnhub quotes, news and candle charts with fl_chart, and your country detected with Geolocator) and as a web app with Bootstrap 5, Chart.js and a market filter by country.",
+      tradeoff:
+        "Usability testing with 5 people changed the design: stock rows didn’t look tappable, timestamps were too faint, the annual-price toggle was missed, and one colour-blind tester couldn’t tell gains from losses. Adding borders, more contrast, a savings badge and ▲/▼ arrows fixed those. On the build side, the web app calls the market APIs straight from the browser and the login only lives in the PHP session, which kept the exam project simple but isn’t production-safe.",
+      next: "Move the API keys behind a small server proxy, store accounts in a real database, and add the price tooltips testers asked for on the portfolio chart.",
+    },
+  },
+  {
+    id: "netflix-sentiment",
+    title: "Netflix Sentiment on Reddit",
+    category: "Big data & NLP pipeline",
+    filterGroup: "Data",
+    description:
+      "A pipeline that collects Reddit posts about Netflix, cleans the text, scores each post’s sentiment, stores everything in PostgreSQL and charts the results.",
+    technologies: ["Python", "Reddit API (PRAW)", "pandas", "NLTK", "TextBlob", "PostgreSQL", "Plotly", "Matplotlib"],
+    image: { src: "/projects/netflix-sentiment.webp", alt: "Chart of 242 Reddit posts about Netflix: 45% positive, 43% neutral, 12% negative" },
+    github: null,
+    liveDemo: null,
+    featured: false,
+    team: "Team of 2",
+    contribution:
+      "Built together with my teammate Ajin Rajeev, working side by side on every stage: Reddit collection with PRAW, text cleaning, TextBlob scoring, PostgreSQL storage and the charts.",
+    pipeline: ["Reddit API", "Cleaning", "TextBlob", "PostgreSQL", "Charts"],
+    deepDive: {
+      hook: "What does Reddit actually think of Netflix? 242 posts, scored and charted.",
+      problem:
+        "For a Big Data & Analytics course, my teammate Ajin Rajeev and I wanted to measure public opinion about Netflix and its biggest shows (Squid Game, Stranger Things) from organic discussion rather than surveys, and turn it into something the business could act on.",
+      built:
+        "A Python pipeline: PRAW pulls posts for each keyword from the Reddit API, a cleaning step strips URLs, emojis and stopwords, and TextBlob gives every post a polarity from −1 to +1, labelled positive above 0.1 and negative below −0.1. Results go into PostgreSQL for querying and into Plotly and Matplotlib charts. Of 242 posts, 45% came out positive, 43% neutral and 12% negative. Squid Game dominated, because its final season had come out the day before, and most negative posts were reactions to that season rather than to Netflix itself.",
+      tradeoff:
+        "TextBlob is a word-list model: fast, free and easy to explain, but it misses sarcasm and slang and only understands English, which is part of why so many posts landed in the neutral band. A broad “Netflix” search also pulled in off-topic posts, and 242 posts from one day is a snapshot, not a trend.",
+      next: "Collect over several weeks to see real trends, hand-label a sample to measure accuracy, and compare TextBlob against a transformer model like BERT.",
+    },
   },
   {
     id: "cloud-infrastructure-deployment",
     title: "AWS Cloud Web Application",
-    category: "Highly Available and Scalable Cloud Architecture",
+    category: "Highly available cloud architecture",
     filterGroup: "Cloud",
     description:
-      "Deployed a web application on AWS EC2, configured Apache as the web server, and connected it to Amazon RDS with MySQL. Added an Application Load Balancer and Auto Scaling for availability and scale.",
+      "A web application on EC2 behind an Application Load Balancer, with Auto Scaling and a managed MySQL database on Amazon RDS.",
     technologies: ["AWS EC2", "Apache", "Application Load Balancer", "Auto Scaling", "Amazon RDS", "MySQL"],
     image: null,
     github: null,
     liveDemo: null,
-    caseStudy: null,
     featured: true,
+    team: "Solo",
     contribution:
-      "Deployed an AWS-hosted web application, configured Apache, set up an Application Load Balancer and Auto Scaling, and used Amazon RDS with MySQL.",
-    objective:
-      "Deploy a web application on AWS with a managed database and infrastructure configured for availability and scaling.",
-    approach:
-      "Hosted the application on EC2 with Apache, connected Amazon RDS MySQL, and configured an Application Load Balancer and Auto Scaling.",
-    learning:
-      "Gained practical experience with AWS compute, web-server configuration, managed databases, load balancing, and scaling.",
-    significance:
-      "The project demonstrates how cloud infrastructure components work together to deploy and scale a web application.",
+      "Set up EC2 with Apache, connected Amazon RDS (MySQL), and configured the load balancer and Auto Scaling group.",
+    pipeline: ["Users", "Load balancer", "EC2 group", "RDS"],
+    deepDive: {
+      hook: "Keeping a web app online when a server dies or traffic spikes.",
+      problem: "Deploy a web application so it keeps serving users when one server fails and grows when traffic rises.",
+      built:
+        "Apache on EC2 instances in an Auto Scaling group behind an Application Load Balancer, with the database on Amazon RDS MySQL so the web servers stay stateless and replaceable.",
+      tradeoff:
+        "Moving the database to RDS costs more than MySQL on the same instance, but it is what lets any web server be thrown away and replaced safely.",
+      next: "Describe the whole setup as code (Terraform or CloudFormation) so it can be rebuilt in minutes.",
+    },
   },
   {
-    id: "car-modification-database",
-    title: "Car Modification Business Database System",
-    category: "Relational Database Design & SQL Reporting",
-    filterGroup: "Data",
+    id: "secure-network-order-system",
+    title: "Secure Order System",
+    category: "Applied cryptography",
+    filterGroup: "Security",
     description:
-      "Designed a normalized relational database for a car-modification business and developed SQL queries for reporting and business analysis.",
-    technologies: ["SQL", "Relational Data Modeling", "Database Normalization", "Reporting Queries"],
+      "An order protocol that encrypts, signs and verifies every message, and detects tampering and replayed messages.",
+    technologies: ["Python", "RSA-2048", "AES-256-GCM", "SHA-256", "Digital signatures", "Scapy", "pytest"],
     image: null,
     github: null,
     liveDemo: null,
-    caseStudy: null,
     featured: false,
-    contribution: "Designed the normalized database and wrote SQL reporting queries to support business analysis.",
-    objective: "Model the data needs of a car-modification business in a structured relational database.",
-    approach: "Applied relational data modeling and normalization principles, then developed SQL queries for reporting and analysis.",
-    learning: "Applied database design and SQL reporting to a business-analysis context.",
-    significance: "A well-modeled relational database helps organize business information and make it useful for reporting.",
+    team: "Solo",
+    contribution:
+      "Implemented hybrid RSA + AES-GCM encryption, signatures and replay protection, with tests and traffic inspection in Scapy.",
+    pipeline: ["Order", "AES-GCM + RSA", "Signature", "Verified"],
+    deepDive: {
+      hook: "What it takes for an order to arrive secret, unaltered and only once.",
+      problem:
+        "An order sent over a network can be read, changed or replayed. The system had to stop all three, not just encrypt the message.",
+      built:
+        "Hybrid encryption: each order is encrypted with a fresh AES-256-GCM key, and that key is wrapped with RSA-2048. Messages are signed, and checks catch tampered or replayed messages. Tests cover the crypto paths, and Scapy was used to look at the traffic itself.",
+      tradeoff:
+        "Hybrid encryption adds a step compared with RSA alone, but RSA can only encrypt tiny payloads and is slow. AES-GCM handles the data and also detects tampering.",
+      next: "Swap the custom handshake for TLS 1.3 with mutual authentication and compare what that gives for free.",
+    },
   },
   {
     id: "heart-attack-risk-prediction",
     title: "Heart Attack Risk Prediction",
-    category: "Machine Learning",
-    filterGroup: "Data",
+    category: "Machine learning on health data",
+    filterGroup: "AI / ML",
     description:
-      "A predictive ML project using structured health data to compare model performance and evaluate risk factors.",
-    technologies: [
-      "Python",
-      "Machine Learning",
-      "Logistic Regression",
-      "Random Forest",
-      "Data preprocessing",
-      "Model evaluation",
-    ],
+      "A model that predicts heart-attack risk from structured patient data, comparing logistic regression and random forest and tuning for recall.",
+    technologies: ["Python", "scikit-learn", "Logistic Regression", "Random Forest", "pandas", "Model evaluation"],
     image: null,
     github: null,
     liveDemo: null,
-    caseStudy: null,
     featured: false,
-    contribution: "Compared modeling approaches and evaluated predictive performance with careful data preparation and model selection.",
-    objective:
-      "To compare model performance and evaluate risk factors using a structured health dataset.",
-    approach:
-      "The project used data preparation, model comparison, and evaluation techniques to understand which modeling choices offered the strongest results.",
-    learning:
-      "I developed a clearer understanding of how machine learning models behave with real data and how careful evaluation shapes model selection.",
-    significance:
-      "This is a useful example of how data science and engineering work together to turn raw information into practical decision support.",
+    team: "Solo",
+    contribution:
+      "Prepared the data, compared the models, and found and fixed a misapplied prediction threshold that was hurting recall.",
+    pipeline: ["Patient data", "Preprocessing", "Models", "Risk + metrics"],
+    deepDive: {
+      hook: "In medical screening, missing a sick patient costs far more than a false alarm.",
+      problem:
+        "Predict which patients are at risk of a heart attack from structured health data, and choose a model based on the metric that actually matters for screening.",
+      built:
+        "A Python pipeline that cleans and prepares the data, trains logistic regression and random forest models, and evaluates them side by side. While checking the results I found that the prediction threshold had been applied inconsistently and the reported metrics didn’t match. Fixing it gave substantially better recall.",
+      tradeoff:
+        "Optimising for recall means accepting more false positives. For screening, that’s the right trade: a follow-up test is cheap, and a missed case is not.",
+      next: "Add cross-validation and calibration plots, and explain individual predictions so the model could be trusted by a clinician.",
+    },
   },
   {
-    id: "secure-network-order-system",
-    title: "Secure Network Order System / IT Security",
-    category: "IT Security",
-    filterGroup: "Security",
+    id: "car-modification-database",
+    title: "Car Modification Database",
+    category: "Relational design & SQL reporting",
+    filterGroup: "Data",
     description:
-      "A security-focused order system project demonstrating cryptography, message integrity checks, and replay protection.",
-    technologies: [
-      "Python",
-      "RSA",
-      "AES-GCM",
-      "SHA-256",
-      "Scapy",
-      "Digital signatures",
-      "Replay/tampering detection",
-    ],
+      "A normalised database for a car-modification business, with SQL queries for reporting and business analysis.",
+    technologies: ["SQL", "Relational modelling", "Normalisation", "Reporting queries"],
     image: null,
     github: null,
     liveDemo: null,
-    caseStudy: null,
     featured: false,
-    contribution: "Applied cryptographic patterns and protocol validation to secure a system workflow and verify message integrity.",
-    objective:
-      "To design a secure communication flow with message integrity and replay protection.",
-    approach:
-      "The project used cryptographic primitives and protocol checks to protect order data and validate communication between parties.",
-    learning:
-      "I strengthened my understanding of how security requirements translate into practical engineering decisions and verification methods.",
-    significance:
-      "Security is fundamental to trust in software systems, and these principles are essential in real-world engineering work.",
+    team: "Solo",
+    contribution: "Designed the normalised schema and wrote the SQL reporting queries.",
+    pipeline: ["Requirements", "ER model", "Schema", "Reports"],
+    deepDive: {
+      hook: "Modelling a real workshop’s data so the owner can answer business questions.",
+      problem: "A car-modification business needed its data in one consistent place that it could query for reports.",
+      built: "An entity-relationship model normalised into a relational schema, plus SQL queries for reporting and analysis.",
+      tradeoff: "Normalisation removes duplicate data but means more joins in every report.",
+      next: "Add views for the most common reports and index the columns they filter on.",
+    },
   },
 ];

@@ -50,7 +50,7 @@ export const about = {
   ],
   interests: ["Cars and driving", "How systems and the cloud fit together", "Turning ML results into something people can use"],
   focus: ["Full-stack web apps", "Applied AI / ML", "Cloud deployment", "Software quality"],
-  languages: "English (fluent) · German (A2)",
+  languages: "English (fluent) · German (A1)",
 };
 
 export const skillGroups = [
@@ -88,7 +88,7 @@ export const skillGroups = [
   },
   {
     title: "Languages",
-    items: ["English — Fluent", "German — A2"],
+    items: ["English — Fluent", "German — A1"],
   },
 ];
 

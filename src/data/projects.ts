@@ -98,28 +98,28 @@ export const projects: Project[] = [
   {
     id: "stockmart",
     title: "StockMart",
-    category: "Stock tracking app: Flutter + web",
+    category: "Stock market app: research, Figma, Flutter + web",
     filterGroup: "Mobile",
     description:
-      "A stock tracking app built twice: a Flutter mobile app and a matching web app with live quotes, charts, a portfolio and accounts.",
-    technologies: ["Flutter", "Dart", "JavaScript", "Chart.js", "Bootstrap 5", "PHP", "Finnhub API"],
-    image: null,
+      "A stock market app taken from research to code: competitor analysis, personas and a usability-tested Figma prototype, then built as a Flutter app and a matching web app with live quotes, charts and news.",
+    technologies: ["Figma", "Flutter", "Dart", "fl_chart", "Geolocator", "JavaScript", "Bootstrap 5", "Chart.js", "PHP", "Finnhub API"],
+    image: { src: "/projects/stockmart.webp", alt: "StockMart web app Markets page with a grid of live stock cards" },
     github: "https://github.com/Krish-39/StockMart",
     liveDemo: null,
     featured: true,
     team: "Solo",
     contribution:
-      "Built the Flutter app and the web version, including a small PHP proxy so the market-data API key never reaches the browser.",
-    pipeline: ["Finnhub", "PHP proxy", "Charts", "Portfolio"],
+      "Did the research and the 7-screen Figma prototype, ran a usability test with 5 people, then built the Flutter app and the web version from the design.",
+    pipeline: ["Research", "Figma prototype", "User testing", "Flutter + web"],
     deepDive: {
-      hook: "One product, two front ends: the same stock tracker in Flutter and on the web.",
+      hook: "Between Bloomberg’s complexity and Robinhood’s oversimplification: a stock app designed with users, then built twice.",
       problem:
-        "For a frontend exam I had to design a finance app where dense market data stays readable on a phone, and then bring the same experience to the web.",
+        "Finance apps tend to be either too complex for everyday investors or too simple for people who track a real portfolio. After comparing Robinhood, Bloomberg, Yahoo Finance, Webull and eToro, I designed for two personas: a beginner who wants only what matters, and an older investor who needs large, high-contrast text.",
       built:
-        "A Flutter app and a web app (Bootstrap 5, vanilla JavaScript, Chart.js). The web app’s market data goes through a PHP proxy that holds the Finnhub key, and sign-in uses PHP sessions.",
+        "A dark-theme Figma prototype with 7 screens (sign-in, home, markets and news, stock detail, portfolio, Pro upgrade) on a small design system: DM Sans for text, DM Mono for every number, and WCAG 2.1 AA contrast. I then built it as a Flutter app (live Finnhub quotes, news and candle charts with fl_chart, and your country detected with Geolocator) and as a web app with Bootstrap 5, Chart.js and a market filter by country.",
       tradeoff:
-        "Accounts are stored in flat files instead of a database. That kept the exam project simple to run anywhere, but it wouldn’t handle many users or concurrent writes.",
-      next: "Replace flat files with a real database and add price alerts.",
+        "Usability testing with 5 people changed the design: stock rows didn’t look tappable, timestamps were too faint, the annual-price toggle was missed, and one colour-blind tester couldn’t tell gains from losses. Adding borders, more contrast, a savings badge and ▲/▼ arrows fixed those. On the build side, the web app calls the market APIs straight from the browser and the login only lives in the PHP session, which kept the exam project simple but isn’t production-safe.",
+      next: "Move the API keys behind a small server proxy, store accounts in a real database, and add the price tooltips testers asked for on the portfolio chart.",
     },
   },
   {

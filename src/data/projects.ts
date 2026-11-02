@@ -136,16 +136,16 @@ export const projects: Project[] = [
     featured: false,
     team: "Team of 2",
     contribution:
-      "Built the pipeline with a teammate: Reddit collection with PRAW, text cleaning, TextBlob scoring, PostgreSQL storage and the Plotly charts.",
+      "Built together with my teammate Ajin Rajeev, working side by side on every stage: Reddit collection with PRAW, text cleaning, TextBlob scoring, PostgreSQL storage and the charts.",
     pipeline: ["Reddit API", "Cleaning", "TextBlob", "PostgreSQL", "Charts"],
     deepDive: {
       hook: "What does Reddit actually think of Netflix? 242 posts, scored and charted.",
       problem:
-        "For a Big Data & Analytics course we wanted to measure public opinion about Netflix and its biggest shows (Squid Game, Stranger Things) from organic discussion rather than surveys, and turn it into something the business could act on.",
+        "For a Big Data & Analytics course, my teammate Ajin Rajeev and I wanted to measure public opinion about Netflix and its biggest shows (Squid Game, Stranger Things) from organic discussion rather than surveys, and turn it into something the business could act on.",
       built:
-        "A Python pipeline: PRAW pulls posts for each keyword from the Reddit API, a cleaning step strips URLs, emojis and stopwords, and TextBlob gives every post a polarity from −1 to +1, labelled positive above 0.1 and negative below −0.1. Results go into PostgreSQL for querying and into Plotly and Matplotlib charts. Of 242 posts, 45% came out positive, 43% neutral and 12% negative; complaints clustered around the app’s interface and pricing.",
+        "A Python pipeline: PRAW pulls posts for each keyword from the Reddit API, a cleaning step strips URLs, emojis and stopwords, and TextBlob gives every post a polarity from −1 to +1, labelled positive above 0.1 and negative below −0.1. Results go into PostgreSQL for querying and into Plotly and Matplotlib charts. Of 242 posts, 45% came out positive, 43% neutral and 12% negative. Squid Game dominated, because its final season had come out the day before, and most negative posts were reactions to that season rather than to Netflix itself.",
       tradeoff:
-        "TextBlob is a word-list model: fast, free and easy to explain, but it misses sarcasm and slang, which is part of why so many posts landed in the neutral band. And 242 posts collected in one day is a snapshot, not a trend.",
+        "TextBlob is a word-list model: fast, free and easy to explain, but it misses sarcasm and slang and only understands English, which is part of why so many posts landed in the neutral band. A broad “Netflix” search also pulled in off-topic posts, and 242 posts from one day is a snapshot, not a trend.",
       next: "Collect over several weeks to see real trends, hand-label a sample to measure accuracy, and compare TextBlob against a transformer model like BERT.",
     },
   },

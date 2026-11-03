@@ -15,7 +15,7 @@ My personal portfolio: who I am, the projects I've built, my skills and educatio
 
 | Project | What it is | Code | Live |
 | --- | --- | --- | --- |
-| NextFilm | AI-assisted movie discovery (React, Firebase, Gemini) | [repo](https://github.com/Krish-39/AI_SE04_NextFilm) | [demo](https://nextfilm-84dc1.web.app) |
+| NextFilm | Movie discovery with Reddit community picks, Gemini and TMDb (React, Vercel, Firebase) | [repo](https://github.com/Krish-39/AI_SE04_NextFilm) | [demo](https://nextfilm.krriss.cloud) |
 | Jaatland | Clothing storefront (Next.js, TypeScript) | [repo](https://github.com/Krish-39/Jaatland-Project) | [demo](https://store.krriss.cloud) |
 | StockMart | Stock tracking web app and Flutter app | [repo](https://github.com/Krish-39/StockMart) | |
 

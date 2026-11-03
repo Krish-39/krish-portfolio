@@ -37,35 +37,36 @@ export const projects: Project[] = [
     category: "AI-powered movie & series discovery",
     filterGroup: "AI / ML",
     description:
-      "Describe a mood (“a slow, sad space movie”) and get five picks from Gemini, backed by TMDb data, Reddit recommendation threads and a personal watchlist.",
+      "Describe what you’re in the mood for (“a tense submarine thriller”) and see what real people recommend on Reddit, counted from upvoted replies, next to TMDb matches and Gemini picks, all under the same filters. Live at nextfilm.krriss.cloud.",
     technologies: [
       "React",
       "Vite",
+      "Vercel Functions",
       "Firebase Auth",
       "Firestore",
-      "Cloud Functions",
       "Gemini API",
+      "Reddit API",
       "TMDb API",
       "Python",
       "scikit-learn",
     ],
-    image: { src: "/projects/nextfilm.webp", alt: "NextFilm home page with the AI search box" },
+    image: { src: "/projects/nextfilm.webp", alt: "NextFilm search results with Reddit recommendations and filters" },
     github: "https://github.com/Krish-39/AI_SE04_NextFilm",
-    liveDemo: "https://nextfilm-84dc1.web.app",
+    liveDemo: "https://nextfilm.krriss.cloud",
     featured: true,
     team: "Team of 4",
     contribution:
-      "Wrote most of the code (43 of the repo’s 51 commits): the React app, Firebase auth and watchlist, and the Cloud Function that turns a mood into picks.",
-    pipeline: ["Mood prompt", "Gemini + Reddit", "TMDb", "Your picks"],
+      "Wrote most of the code (75 of the repo’s 81 commits): the React app and its design, the search pipeline, the Reddit and Gemini server functions, and Firebase sign-in and watchlists.",
+    pipeline: ["Your words", "Reddit + Gemini + TMDb", "Rank & filter", "Your picks"],
     deepDive: {
-      hook: "Turning “I want something sad, set in space” into five films you can actually watch tonight.",
+      hook: "Turning “something fast with a gun fight” into films real people actually recommend, not just what an AI guesses.",
       problem:
-        "Streaming catalogues are huge, and genre filters don’t capture what people really ask for, which is a mood or a vague plot. Our course brief (DA120B) was to build a recommender that cuts down that search time.",
+        "Streaming catalogues are huge, and genre filters don’t capture what people really ask for, which is a mood or a vague plot. AI picks alone can be confident and wrong. Our course brief (DA120B) was to build a recommender that cuts down that search time.",
       built:
-        "A React + Vite app on Firebase. A Cloud Function sends the user’s prompt to Gemini, adds what people recommend in Reddit communities like r/MovieSuggestions, and resolves every title against TMDb for posters, trailers and where to watch. Watchlists live per user in Firestore. Alongside it, we built content-based, collaborative (SVD) and hybrid recommenders in Python on MovieLens 1M as the offline study for the report.",
+        "A React + Vite app with small Vercel functions as the server. A search first works out what the text asks for: moods, genres, decades, languages and “something like <title>”, and it rejects things that aren’t film requests (“chicken masala” gets a clear message, not random films). Then it gathers from three places under the same filters: TMDb, Gemini, and Reddit, where it reads the most upvoted replies in matching r/MovieSuggestions threads and counts which titles people name most. Everything is ranked together and exact-matched on TMDb. Sign-in and watchlists use Firebase. Alongside it, we built content-based, collaborative (SVD) and hybrid recommenders in Python on MovieLens 1M as the offline study for the report.",
       tradeoff:
-        "The live app doesn’t serve our Python models. MovieLens 1M stops around the year 2000 and hosting a model server costs money, so an LLM over TMDb’s current catalogue gave fresher picks for free. The models stayed an evaluation study instead of a production feature.",
-      next: "Feed real watchlist data back into the hybrid model and compare its picks against Gemini’s on the same prompts, instead of judging quality by eye.",
+        "Search understands requests with a word list first and only asks the AI when the words aren’t enough. That keeps it fast and free when Gemini is busy, and it never makes up results, but unusual wording can still miss. The live app also doesn’t serve our Python models: MovieLens 1M stops around 2000, so current catalogue data gave fresher picks.",
+      next: "Feed real watchlist data back into the hybrid model and measure its picks against the Reddit and Gemini ones on the same requests, instead of judging quality by eye.",
     },
   },
   {
